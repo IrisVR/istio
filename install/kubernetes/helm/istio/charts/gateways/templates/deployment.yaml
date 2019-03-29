@@ -158,6 +158,9 @@ spec:
           - --trust-domain={{ $.Values.global.trustDomain }}
         {{- end }}
           readinessProbe:
+{{- if $spec.readinessProbe }}
+{{ toYaml $spec.readinessProbe | indent 12 }}
+{{- else }}
             failureThreshold: 30
             httpGet:
               path: /healthz/ready
@@ -167,6 +170,7 @@ spec:
             periodSeconds: 2
             successThreshold: 1
             timeoutSeconds: 1
+{{- end }}
           resources:
 {{- if $spec.resources }}
 {{ toYaml $spec.resources | indent 12 }}
